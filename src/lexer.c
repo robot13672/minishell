@@ -6,7 +6,7 @@
 /*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:23:45 by novsiann          #+#    #+#             */
-/*   Updated: 2023/08/02 20:37:10 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:12:21 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,40 +27,50 @@ char *get_word(char *str, int start, int end)
 	return (new_str);
 }
 
-//Iliya eto PIZDA!!!!!!!
 void	list_value_split(t_token_list **list, int type)
 {
 	t_token_list	*tmp;
+	int				splited_tokens;
 	int				start;
 	int				end;
 	char			*str;
+	char			*buf;
 
 	tmp = *list;
 	start = 0;
 	end = 0;
-	while (tmp->tok[end] != '\0')
+	splited_tokens = 0;
+	buf = ft_strdup(tmp->tok);
+	while (buf[end] != '\0')
 	{
-		if(get_type(tmp->tok[end]) != type || tmp->tok[end + 1] == '\0')
+		if (get_type(buf[end]) != type || buf[end + 1] == '\0')
 		{
-			if (tmp->tok[end + 1] == '\0')
+			if (buf[end + 1] == '\0' && get_type(buf[end]) == type)
 				end++;
-			str = get_word(tmp->tok, start, end);
-			ft_put_between_token(tmp->prev, tmp->next, str);
+			str = get_word(buf, start, end);
+			if (!splited_tokens)
+			{
+				splited_tokens = 1;
+				free(tmp->tok);
+				tmp->tok = ft_strdup(str);
+				tmp->len = ft_strlen(tmp->tok);
+			}
+			else
+				tmp = ft_put_between_token(tmp, tmp->next, str);
 			free(str);
-			type = get_type(tmp->tok[end]);
+			type = get_type(buf[end]);
 			start = end;
 		}
+		if (get_type(buf[end - 1]) != type && buf[end + 1] == '\0' && buf[end] != '\0')
+		{
+			str = get_word(buf, start, end + 1);
+			tmp = ft_put_between_token(tmp, tmp->next, str);
+			free(str);
+		}
+
 		end++;
 	}
-	tmp = *list;
-	
-	// while (splited_tokens != NULL)
-	// {
-	// 	printf("[%s]\n", splited_tokens->tok);
-	// 	splited_tokens = splited_tokens->next;
-	// }
 }
-
 
 void	list_value_check(t_token_list **list)
 {
@@ -78,6 +88,7 @@ void	list_value_check(t_token_list **list)
 			if (get_type(temp->tok[i]) != type)
 			{
 				list_value_split(&temp, type);
+				i++;
 				break ;
 			}
 			else
@@ -98,7 +109,7 @@ t_token_list	*list_without_spaces(char *str, int start, int end)
 	tmp_start = start;
 	new_str = malloc(sizeof(char *) * (end - tmp_start + 1));
 	if (!new_str)
-		exit (0);
+		return NULL;
 	while(tmp_start < end)
 		new_str[i++] = str[tmp_start++];
 	list = create_token(end - start, new_str, 1);
@@ -128,12 +139,15 @@ void	lexer(char *input)//
 		start = end;
 	}
 	list_value_check(&list);
+	get_final_type(&list);
+	check_quotes(list);
 	while(list != NULL)
 	{
-		printf("%s \n", list->tok);
+		printf("[%s] - [%d] \n", list->tok, list->type);
+		// printf("%p<-%p->%p\n",list->prev, list, list->next);
 		list = list->next;
 	}
-	// ft_clear_tokens(&list);
+	ft_clear_tokens(&list);
 	write(1, "\n", 1);
 	// return (list);
 }
