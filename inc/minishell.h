@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:31:56 by nikitos           #+#    #+#             */
-/*   Updated: 2023/08/06 16:11:58 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:26:18 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,67 @@ typedef struct s_token_list
 	int					len;
 	char				*tok;
 	int					type;
+	int					corrective_token;
+	int					i;
+	int					k;
 	struct s_token_list	*next;
 	struct s_token_list	*prev;
 }						t_token_list;
 
-char				*read_input();
+typedef struct s_pipe_group
+{
+	char				**argv;
+	char				*cmd;
+	int					fd[2];
+	int					input;
+	int					output;
+	int					pipe_index;
+	char				*heredoc;
+	struct s_pipe_group	*next;
+}						t_pipe_group;
 
+typedef struct s_minishell
+{
+	char			**envp;
+	int				error;
+	int				current_env;
+	int				last;
+	t_pipe_group	*pipes;
+	t_token			*head;
+}			t_minishell;
+
+extern t_minishell	g_shell;
+
+char				*read_input(void);
+char				*get_word(char *str, int start, int end);
+
+int					ft_lstsize_n(t_token_list *start, t_token_list *finish);
 int					get_type(char symbol);
 
-void				lexer(char *input);//
+void				change_node(t_token_list *tmp, \
+char *buf, t_token_list **list);
+void				split_value(t_token_list **tmp, \
+char *buf, t_token_list **list, int *type);
+void				last_letter(t_token_list *list, \
+char *buf, int sta, int end);
+
 void				ft_clear_tokens(t_token_list **tokens);
-void				ft_lstadd_back_minishell(t_token_list **lst, t_token_list *new);
+void				ft_lstadd_back_minishell(t_token_list **lst, \
+t_token_list *new);
 void				get_final_type(t_token_list **token);
-void 				check_quotes(t_token_list *tokens);
+void				check_quotes(t_token_list *tokens);
+void				*find_words(char *input, t_token_list **list);
+void				list_value_cmp(t_token_list **list);
+void				list_value_split(t_token_list **list, int type);
+void				pipe_grp_mmry(t_pipe_group **pipe_grp, t_token_list *start, t_token_list *finish);
+void				parse(t_token_list *list);
 
-t_token_list	*ft_put_between_token(t_token_list *prev, t_token_list *next, char *value);
-
-
-t_token_list		*list_without_space(char *str, int start, int end);
+t_token_list		*ft_put_between_token(t_token_list *prev, \
+t_token_list *next, char *value);
+t_token_list		*lexer(char *input);
+t_token_list		*delete_spaces(char *str, int start, int end);
 t_token_list		*create_token(int length, char *start, int type);
 t_token_list		*ft_lstlast_minishell(t_token_list *lst);
+
+t_pipe_group		*create_pipe_group(t_token_list *start, t_token_list *finish);
 #endif

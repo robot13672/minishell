@@ -1,34 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   pars_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: novsiann <novsiann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 14:03:19 by ikhristi          #+#    #+#             */
-/*   Updated: 2023/08/06 16:13:24 by ikhristi         ###   ########.fr       */
+/*   Created: 2023/08/08 23:18:14 by novsiann          #+#    #+#             */
+/*   Updated: 2023/08/09 09:12:55 by novsiann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void check_quotes(t_token_list *tokens)
+int	ft_lstsize_n(t_token_list *start, t_token_list *finish)
+{
+	int	i;
+
+	i = 0;
+	while(start != finish)
+	{
+		i++;
+		start = start->next;
+	}
+	return (i);
+}
+
+void    check_quotes(t_token_list *tokens)
 {
     int quote;
-    
-    quote = -1;//Если -1, то открытых кавычек нету
-    while(tokens)
+
+    quote = -1;
+    while (tokens)
     {
         if (quote == -1)
         {
-            if(tokens->type == DOUBLE_QUOTES || tokens->type == SINGLE_QUOTES)
+            if (tokens->type == DOUBLE_QUOTES || tokens->type == SINGLE_QUOTES)
             {
                 quote = tokens->type;
             }       
         }
         else
         {
-            if(quote == tokens->type)
+            if (quote == tokens->type)
             {
                 quote = -1;
             }       
