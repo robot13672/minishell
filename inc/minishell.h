@@ -6,7 +6,7 @@
 /*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:31:56 by nikitos           #+#    #+#             */
-/*   Updated: 2023/08/09 13:26:18 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/11 21:08:35 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,26 @@ typedef struct s_minishell
 	int				current_env;
 	int				last;
 	t_pipe_group	*pipes;
-	t_token			*head;
 }			t_minishell;
 
-extern t_minishell	g_shell;
+t_minishell *g_shell_h;
 
 char				*read_input(void);
 char				*get_word(char *str, int start, int end);
+char				*find_in_env(char *str);
 
 int					ft_lstsize_n(t_token_list *start, t_token_list *finish);
 int					get_type(char symbol);
+int					assign_env(char **envp);
 
 void				change_node(t_token_list *tmp, \
 char *buf, t_token_list **list);
 void				split_value(t_token_list **tmp, \
 char *buf, t_token_list **list, int *type);
+void				init_vars_env(int	*counter, char ***env, char **envp, int *i);
 void				last_letter(t_token_list *list, \
 char *buf, int sta, int end);
+void				print_env(void);
 
 void				ft_clear_tokens(t_token_list **tokens);
 void				ft_lstadd_back_minishell(t_token_list **lst, \
@@ -92,7 +95,7 @@ void				pipe_grp_mmry(t_pipe_group **pipe_grp, t_token_list *start, t_token_list
 void				parse(t_token_list *list);
 
 t_token_list		*ft_put_between_token(t_token_list *prev, \
-t_token_list *next, char *value);
+t_token_list*next, char *value);
 t_token_list		*lexer(char *input);
 t_token_list		*delete_spaces(char *str, int start, int end);
 t_token_list		*create_token(int length, char *start, int type);
