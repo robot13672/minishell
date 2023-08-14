@@ -6,7 +6,7 @@
 /*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 11:55:57 by ikhristi          #+#    #+#             */
-/*   Updated: 2023/08/11 21:08:12 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/14 13:50:04 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,16 @@ char	*find_in_env(char *str)
 	char	*ret;
 
 	i = 0;
+	str = ft_strjoin(str, "=");
 	while (i < g_shell_h->current_env)
 	{
 		if (g_shell_h->envp[i] != NULL)
 		{
 			ret = ft_strnstr(g_shell_h->envp[i], str, \
 				ft_strlen(g_shell_h->envp[i]));
-			if (ret != NULL)
+			if (ret != NULL && *(str - 1) != '\0')
 			{
-				ret += ft_strlen(str) + 1;
+				ret += ft_strlen(str);
 				return (ret);
 			}
 		}
@@ -84,3 +85,4 @@ char	*find_in_env(char *str)
 	}
 	return ("\0");
 }
+
