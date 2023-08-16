@@ -3,48 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:48:42 by ikhristi          #+#    #+#             */
-/*   Updated: 2023/08/14 19:31:59 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:51:31 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	variable_expansion(t_token_list **token)
-{
-	t_token_list	*tmp;
-	int				single_quotes;
-	int				size;
+// void	variable_expansion(t_token_list **token)
+// {
+// 	t_token_list	*tmp;
+// 	int				single_quotes;
 
-	single_quotes = -1;
-	tmp = token;
-	while (tmp)
+// 	tmp = token;
+// 	single_quotes = -1;
+// 	while (tmp)
+// 	{
+// 		if (tmp->type = SINGLE_QUOTES)
+// 			single_quotes = -single_quotes;
+// 		if (single_quotes && strchr(tmp->tok, '$'))
+			
+// 	}
+// }
+
+// char	*resolve_dollar(char *inp)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	*res;
+// 	char	*var_name;
+// 	char	*var_value;
+
+	
+	
+// }
+
+int define_malloc(int *i, int *j, char *inp)
+{
+	char	*var_name;
+	char	*var_value;
+	
+	*i = 0;
+	*j = 0;
+	while (inp[*i])
 	{
-		if (tmp->type == SINGLE_QUOTES)
-			single_quotes = -single_quotes;
-		if (ft_strchr(tmp->tok, '$'))
+		if (inp[*i] == '$')
 		{
-			def
+			var_name = get_var_name(&inp[*i]);
+			var_value = find_in_env(var_name);
+			*i += ft_strlen(var_name);
+			*j += ft_strlen(var_value);
+			free(var_name);
+			free(var_value);
+		}
+		else
+		{
+			*i++;
+			*j++;
 		}
 	}
 }
 
-int	define_malloc_size(int *start, char *str)
+char *get_var_name(char *inp)
 {
-	int		end;
-	char	new_str;
+	char	*ret;
+	int		i;
 
-	*start = 0;
-	end = 0;
-	while (str[*start] != '\0')
+	i = 0;
+	while(inp[i] && (ft_isalnum(inp[i]) || inp[i] == '_'))
+		i++;
+	ret = malloc(i + i);
+	i = 0;
+	while(inp[i] && (ft_isalnum(inp[i]) || inp[i] == '_'))
 	{
-		if (str[*start] == '$')
-			new_str = find_in_env()
+		ret[i] == inp[i];
+		i++;
 	}
-
-
-
-
+	ret[i] = '\0';
+	return (ret);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: novsiann <novsiann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:11:47 by nikitos           #+#    #+#             */
-/*   Updated: 2023/08/14 17:41:16 by novsiann         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:49:52 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,23 @@ void	init_main(int argc, char **argv, char **env)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_token_list	*list;
-	char			*str;
-
+	// t_token_list	*list;
+	// char			*str;
 	init_main(argc, argv, env);
-	while (1)
-	{
-		str = read_input();
-		if (!str)
-			return (0);
-		// printf("%s\n", find_in_env(str));
-		list = lexer(str);
-		// parse(list);
-		// ft_clear_tokens(&list);
-	}
+	
+	int i = 0;
+	int j = 0;
+	int size = define_malloc(&i, &j, "Hello$PATH");
+	printf("%d", size);
+	// while (1)
+	// {
+	// 	str = read_input();
+	// 	if (!str)
+	// 		return (0);
+	// 	// printf("%s\n", find_in_env(str));
+	// 	// list = lexer(str);
+	// 	// parse(list);
+	// 	// ft_clear_tokens(&list);
+	// }
 	return (1);
 }

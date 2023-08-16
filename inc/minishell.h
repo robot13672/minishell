@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:31:56 by nikitos           #+#    #+#             */
-/*   Updated: 2023/08/11 21:08:35 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:45:58 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ char				*find_in_env(char *str);
 int					ft_lstsize_n(t_token_list *start, t_token_list *finish);
 int					get_type(char symbol);
 int					assign_env(char **envp);
+int					define_malloc(int *i, int *j, char *inp);
+char				*get_var_name(char *inp);
 
 void				change_node(t_token_list *tmp, \
 char *buf, t_token_list **list);

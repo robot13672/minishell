@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+         #
+#    By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/26 18:59:58 by nikitos           #+#    #+#              #
-#    Updated: 2023/08/11 16:50:36 by ikhristi         ###   ########.fr        #
+#    Updated: 2023/08/16 14:52:25 by ikhristi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft
 
-SRCS = src/env.c src/main.c src/lexer_1.c src/lexer_2.c src/read_input.c src/pipe_group.c src/lexer_utils.c src/token.c src/pars.c src/pars_utils.c
+SRCS = src/env.c src/main.c src/lexer_1.c src/lexer_2.c src/lexer_3 src/read_input.c src/pipe_group.c src/lexer_utils.c src/token.c src/pars.c src/pars_utils.c
 OBJS = ${SRCS:.c=.o}
 
 RM = rm -f
@@ -25,7 +25,7 @@ PURPLE = \033[0;35m
 RED = \033[0;31m
 YELLOW = \033[1;33m
 
-CFLAGS = -Wall -Wextra -Werror -g
+# CFLAGS = -Wall -Wextra -Werror -g
 
 all:	$(NAME)
 
