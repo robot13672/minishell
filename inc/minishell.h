@@ -6,7 +6,7 @@
 /*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:31:56 by nikitos           #+#    #+#             */
-/*   Updated: 2023/08/16 14:45:58 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/16 19:07:57 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_minishell
 	t_pipe_group	*pipes;
 }			t_minishell;
 
-t_minishell *g_shell_h;
+extern t_minishell *g_shell_h;
 
 char				*read_input(void);
 char				*get_word(char *str, int start, int end);

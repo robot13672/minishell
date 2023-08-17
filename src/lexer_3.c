@@ -6,7 +6,7 @@
 /*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:48:42 by ikhristi          #+#    #+#             */
-/*   Updated: 2023/08/16 14:51:31 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:51:29 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,11 @@ int define_malloc(int *i, int *j, char *inp)
 		}
 		else
 		{
-			*i++;
-			*j++;
+			(*i)++;
+			(*j)++;
 		}
 	}
+	return (*j);
 }
 
 char *get_var_name(char *inp)
@@ -78,7 +79,7 @@ char *get_var_name(char *inp)
 	i = 0;
 	while(inp[i] && (ft_isalnum(inp[i]) || inp[i] == '_'))
 	{
-		ret[i] == inp[i];
+		ret[i] = inp[i];
 		i++;
 	}
 	ret[i] = '\0';
