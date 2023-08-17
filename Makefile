@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+         #
+#    By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/26 18:59:58 by nikitos           #+#    #+#              #
-#    Updated: 2023/08/16 18:57:56 by ikhristi         ###   ########.fr        #
+#    Updated: 2023/08/17 17:13:42 by ikhristi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ PURPLE = \033[0;35m
 RED = \033[0;31m
 YELLOW = \033[1;33m
 
-CFLAGS = -Wall -Wextra -Werror -g
+# CFLAGS = -Wall -Wextra -Werror -g
 
 all:	$(NAME)
 

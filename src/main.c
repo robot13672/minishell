@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:11:47 by nikitos           #+#    #+#             */
-/*   Updated: 2023/08/16 14:49:52 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/17 21:03:02 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@ int	main(int argc, char **argv, char **env)
 	// t_token_list	*list;
 	// char			*str;
 	init_main(argc, argv, env);
-	
-	int i = 0;
-	int j = 0;
-	int size = define_malloc(&i, &j, "Hello$PATH");
-	printf("%d", size);
+	char *str = resolve_dollar("Xyi $LANG HEll $PATH");
+	printf("%s", str);
+	// printf("%d", size);
 	// while (1)
 	// {
 	// 	str = read_input();
@@ -40,5 +38,5 @@ int	main(int argc, char **argv, char **env)
 	// 	// parse(list);
 	// 	// ft_clear_tokens(&list);
 	// }
-	return (1);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:31:56 by nikitos           #+#    #+#             */
-/*   Updated: 2023/08/16 19:07:57 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:19:36 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@ typedef struct s_minishell
 	t_pipe_group	*pipes;
 }			t_minishell;
 
-extern t_minishell *g_shell_h;
+t_minishell *g_shell_h;
 
 char				*read_input(void);
 char				*get_word(char *str, int start, int end);
 char				*find_in_env(char *str);
+char				*resolve_dollar(char *inp);
 
 int					ft_lstsize_n(t_token_list *start, t_token_list *finish);
 int					get_type(char symbol);
