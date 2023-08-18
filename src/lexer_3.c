@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:48:42 by ikhristi          #+#    #+#             */
-/*   Updated: 2023/08/17 21:05:31 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:43:37 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,27 @@ char	*resolve_dollar(char *inp)
 	char	*var_value;
 
 	res = ft_calloc(define_malloc(&i, &j, inp) + 1, 1);
+	j = 0;
 	while (inp[i] != '\0')
 	{
 		if (inp[i] == '$')
 		{
 			var_name = get_var_name(&inp[++i]);
 			var_value = find_in_env(var_name);
-			ft_strlcat(&res[--i], var_value, ft_strlen(var_value) + 1);
-			i += ft_strlen(var_name) + 2;
-			printf("%d\n", i);
+			if (var_value)
+				ft_strlcat(&res[j], var_value, ft_strlen(var_value) + 1);
+			i += ft_strlen(var_name);
+			j += ft_strlen(var_value);
 			free(var_name);
 			free(var_value);
 		}
 		else
 		{
-			ft_strlcat(res + i, &inp[i], 2);
+			res[j] = inp[i];
+			j++;
 			i++;
-			printf("%d\n", i);
 		}
 	}
-	res[i] == '\0';
 	return (res);
 }
 
