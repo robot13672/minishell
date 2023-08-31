@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 11:55:57 by ikhristi          #+#    #+#             */
-/*   Updated: 2023/08/18 11:35:10 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:00:31 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,16 @@ char	*find_in_env(char *str)
 	{
 		if (g_shell_h->envp[i] != NULL)
 		{
-			ret = ft_strnstr(g_shell_h->envp[i], str, \
+			ret = ft_strnstr(g_shell_h->envp[i],str, \
 				ft_strlen(g_shell_h->envp[i]));
 			if (ret != NULL)
 			{
-				ret += ft_strlen(str);
-				ret = ft_strdup(ret);
+				ret += ft_strlen(str) + 1;
 				return (ret);
 			}
 		}
 		i++;
 	}
-	return (NULL);
+	free(str);
+	return ("\0");
 }

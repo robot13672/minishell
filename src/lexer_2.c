@@ -3,57 +3,108 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitos <nikitos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 19:29:07 by novsiann          #+#    #+#             */
-/*   Updated: 2023/08/14 14:19:57 by nikitos          ###   ########.fr       */
+/*   Created: 2023/08/14 17:48:42 by ikhristi          #+#    #+#             */
+/*   Updated: 2023/08/31 17:27:27 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	change_node(t_token_list *tmp, char *buf, t_token_list **list)
+void	expander(void)
 {
-	char	*str;
+	t_token_list	*tmp;
+	char			*buf;
 
-	str = get_word(buf, (*list)->i, (*list)->k);
-	free(tmp->tok);
-	tmp->tok = ft_strdup(str);
-	tmp->len = ft_strlen(tmp->tok);
-	(*list)->corrective_token = 1 ;
-	free(str);
-}
-
-void	last_letter(t_token_list *list, char *buf, int sta, int end)
-{
-	char	*str;
-
-	str = get_word(buf, sta, end + 1);
-	list = ft_put_between_token(list, list->next, str);
-	free(str);
-}
-
-void	list_value_cmp(t_token_list **list)
-{
-	int				i;
-	int				type;
-	t_token_list	*temp;
-
-	temp = *list;
-	while (temp != NULL)
+	tmp = g_shell_h->head;
+	while (tmp)
 	{
-		i = 0;
-		type = get_type(temp->tok[i]);
-		while (temp->tok[i] != '\0')
+		if (tmp->type == DOUBLE_QUOTES && tmp->tok)
 		{
-			if (get_type(temp->tok[i]) != type)
-			{
-				list_value_split(&temp, type);
-				break ;
-			}
-			else
-				i++;
+			buf = resolve_dollar(tmp->tok);
+			free(tmp->tok);
+			tmp->tok = buf;
+			free(buf);
 		}
-		temp = temp->next;
+		tmp = tmp->next;
 	}
+}
+
+char	*resolve_dollar(char *inp)
+{
+	int		i;
+	int		j;
+	char	*res;
+	char	*var_name;
+	char	*var_value;
+
+	res = ft_calloc(define_malloc(&i, &j, inp) + 1, 1);
+	j = 0;
+	while (inp[i] != '\0')
+	{
+		if (inp[i] == '$')
+		{
+			var_name = get_var_name(&inp[++i]);
+			var_value = find_in_env(var_name);
+			if (var_value)
+				ft_strlcat(&res[j], var_value, ft_strlen(var_value) + 1);
+			i += ft_strlen(var_name);
+			j += ft_strlen(var_value);
+			free(var_name);
+		}
+		else
+		{
+			res[j] = inp[i];
+			j++;
+			i++;
+		}
+	}
+	return (res);
+}
+
+int	define_malloc(int *i, int *j, char *inp)
+{
+	char	*var_name;
+	char	*var_value;
+
+	*i = 0;
+	*j = 0;
+	while (inp[*i])
+	{
+		if (inp[*i] == '$')
+		{
+			var_name = get_var_name(&inp[++(*i)]);
+			var_value = find_in_env(var_name);
+			(*i) += ft_strlen(var_name);
+			(*j) += ft_strlen(var_value);
+			free(var_name);
+		}
+		else
+		{
+			(*i)++;
+			(*j)++;
+		}
+	}
+	*i = 0;
+	return (*j);
+}
+
+char	*get_var_name(char *inp)
+{
+	char	*ret;
+	int		i;
+
+	i = 0;
+	while (inp[i] && (ft_isalnum(inp[i]) || inp[i] == '_'))
+		i++;
+	ret = malloc(i + i);
+	i = 0;
+	while (inp[i] && (ft_isalnum(inp[i]) || inp[i] == '_'))
+	{
+		ret[i] = inp[i];
+		i++;
+	}
+	ret[i] = '\0';
+	return (ret);
 }

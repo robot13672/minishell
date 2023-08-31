@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:11:47 by nikitos           #+#    #+#             */
-/*   Updated: 2023/08/18 11:36:34 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:54:27 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,17 @@ void	init_main(int argc, char **argv, char **env)
 int	main(int argc, char **argv, char **env)
 {
 	// t_token_list	*list;
-	// char			*str;
+	// t_token_list	*tmp;
+	char			*str;
+
 	init_main(argc, argv, env);
-	char *str = resolve_dollar("Xyi $LrANG HEll $USER");
-	printf("%s\n", str);
-	// printf("%d", size);
-	// while (1)
-	// {
-	// 	str = read_input();
-	// 	if (!str)
-	// 		return (0);
-	// 	// printf("%s\n", find_in_env(str));
-	// 	// list = lexer(str);
-	// 	// parse(list);
-	// 	// ft_clear_tokens(&list);
-	// }
+	while (1)
+	{
+		str = read_input();
+		// str = "sdaskdkasdsakd\"asd\"";
+		if (!str)
+			return (0);
+		lexer(str);
+	}
 	return (0);
 }
