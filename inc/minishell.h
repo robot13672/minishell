@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:31:56 by nikitos           #+#    #+#             */
-/*   Updated: 2023/08/31 16:10:10 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:48:28 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <signal.h>
 
 # define WORD 0
 # define PIPE 1 // |
@@ -65,7 +66,7 @@ typedef struct s_minishell
 	t_token_list	*head;
 }			t_minishell;
 
-t_minishell *g_shell_h;
+extern t_minishell *g_shell_h;
 
 char				*read_input(void);
 char				*get_word(char *str, int start, int end);
@@ -121,4 +122,7 @@ void	expander(void);
 char	*resolve_dollar(char *inp);
 int		define_malloc(int *i, int *j, char *inp);
 char	*get_var_name(char *inp);
+
+void    signals(void);
+void 	sig_handler(int sig);
 #endif
