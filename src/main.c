@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikhristi <ikhristi@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: nikitos <nikitos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:11:47 by nikitos           #+#    #+#             */
-/*   Updated: 2023/09/03 14:06:10 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/09/26 19:44:17 by nikitos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,48 @@ void	init_main(int argc, char **argv, char **env)
 	signals();
 }
 
+void	count_last(t_pipe_group *pipes)
+{
+	g_shell_h->last = -1;
+	while (pipes)
+	{
+		pipes = pipes->next;
+		g_shell_h->last++;
+	}
+}
+
+void	ft_lexer(void)
+{
+	put_type_tok(&(g_shell_h->head));
+	split_words(&(g_shell_h->head));
+}
+
+void	free_all(char *readed, char **splited)
+{
+	free_t_token(&(g_shell_h->head));
+	free_t_pipe(&(g_shell_h->pipes));
+	free(readed);
+	free_splited(splited);
+}
+
 int	main(int argc, char **argv, char **env)
 {
-	// t_token_list	*list;
-	// t_token_list	*tmp;
-	char			*str;
+	char			*readed;
+	char			**splited;
 
 	init_main(argc, argv, env);
 	while (1)
 	{
-		str = read_input();
-		// str = "sdaskdkasdsakd\"asd\"";
-		if (!str)
+		readed = read_input();
+		if (!readed)
 			return (0);
-		lexer(str);
+		splited = ft_split_minishell(readed);
+		if (main_allocate(splited, readed) == 1)
+			continue ;
+		count_last(g_shell_h->pipes);
+		executor(g_shell_h->pipes);
+		free_all(readed, splited);
 	}
+	free_shell_h();
 	return (0);
 }

@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.c                                          :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/03 14:14:30 by ikhristi          #+#    #+#             */
-/*   Updated: 2023/09/26 17:39:16 by ikhristi         ###   ########.fr       */
+/*   Created: 2023/09/15 17:07:16 by ikhristi          #+#    #+#             */
+/*   Updated: 2023/09/15 18:13:09 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	sig_handler(int sig)
+int	b_unset(char **args)
 {
-	char	cwd[256];
+	int	i;
+	int	j;
 
-	getcwd(cwd, sizeof(cwd));
-	ft_strlcat(cwd, " : ", 256);
-	if (sig == SIGINT)
+	i = 0;
+	while (args[i])
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		ft_putstr_fd(cwd, STDIN_FILENO);
+		j = find_path_env(g_shell_h->envp, args[i]);
+		if (j != -1 && g_shell_h->envp[j])
+		{
+			free((g_shell_h->envp[j]));
+			g_shell_h->envp[j] = NULL;
+		}
+		else
+		{
+			ft_putstr_fd("minishell: unset: `", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (1);
+		}
+		i++;
 	}
-}
-
-void	sig_handle_child(int sig)
-{
-	if (sig == SIGQUIT)
-	{
-		ft_putstr_fd("Quit: 3\n", STDOUT_FILENO);
-	}
-	if (sig == SIGINT)
-		ft_putchar_fd('\n', STDOUT_FILENO);
+	return (0);
 }

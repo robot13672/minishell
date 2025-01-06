@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitos <nikitos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 20:01:02 by nikitos           #+#    #+#             */
-/*   Updated: 2023/08/18 20:51:24 by nikitos          ###   ########.fr       */
+/*   Updated: 2023/09/26 11:36:51 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,10 @@ int	throw_error(char *error)
 	free_t_pipe(&(g_shell_h->pipes));
 	free_t_token(&(g_shell_h->head));
 	return (1);
+}
+
+void	throw_error_exec(char *error)
+{
+	ft_putstr_fd(error, 2);
+	g_shell_h->error = 127;
 }

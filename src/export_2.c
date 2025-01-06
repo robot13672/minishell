@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.c                                          :+:      :+:    :+:   */
+/*   export_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/03 14:14:30 by ikhristi          #+#    #+#             */
-/*   Updated: 2023/09/26 17:39:16 by ikhristi         ###   ########.fr       */
+/*   Created: 2023/09/15 14:35:23 by nikitos           #+#    #+#             */
+/*   Updated: 2023/09/26 14:09:34 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	sig_handler(int sig)
+int	builtin_export(char **argv)
 {
-	char	cwd[256];
+	int	i;
+	int	index;
 
-	getcwd(cwd, sizeof(cwd));
-	ft_strlcat(cwd, " : ", 256);
-	if (sig == SIGINT)
+	if (!argv[1])
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		ft_putstr_fd(cwd, STDIN_FILENO);
+		print_export();
+		return (0);
 	}
-}
-
-void	sig_handle_child(int sig)
-{
-	if (sig == SIGQUIT)
+	i = 0;
+	while (argv[++i])
 	{
-		ft_putstr_fd("Quit: 3\n", STDOUT_FILENO);
+		if (!ft_strchr(argv[i], '='))
+			continue ;
+		else if (!check_var_name(argv[i]))
+			ft_putstr_fd("export: not valid in this context\n", 2);
+		index = find_path_env(g_shell_h->envp, argv[i]);
+		change_env(argv[i], index);
 	}
-	if (sig == SIGINT)
-		ft_putchar_fd('\n', STDOUT_FILENO);
+	return (0);
 }

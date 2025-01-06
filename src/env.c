@@ -6,7 +6,7 @@
 /*   By: ikhristi <ikhristi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 11:55:57 by ikhristi          #+#    #+#             */
-/*   Updated: 2023/08/31 18:00:31 by ikhristi         ###   ########.fr       */
+/*   Updated: 2023/09/26 10:47:27 by ikhristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,17 @@ void	init_vars_env(int	*counter, char ***env, char **envp, int *i)
 	*counter = 0;
 	*i = 0;
 	g_shell_h = malloc(sizeof(t_minishell));
-	*env = malloc(sizeof(char *) * 1000);
-	if (!env)
-		return ;
 	while (envp[*counter])
 		(*counter)++;
-	//Проверить для экспорта
+	*env = malloc(sizeof(char *) * 1000);
+	if (!(*env))
+		return ;
+	while (*i < 1000)
+	{
+		(*env)[*i] = NULL;
+		(*i)++;
+	}
+	*i = 0;
 }
 
 int	assign_env(char **envp)
@@ -47,7 +52,7 @@ int	assign_env(char **envp)
 	return (1);
 }
 
-void	print_env(void)
+int	print_env(void)
 {
 	int	i;
 
@@ -60,6 +65,7 @@ void	print_env(void)
 		}
 		i++;
 	}
+	return (0);
 }
 
 char	*find_in_env(char *str)
@@ -68,12 +74,11 @@ char	*find_in_env(char *str)
 	char	*ret;
 
 	i = 0;
-	str = ft_strjoin(str, "=");
 	while (i < g_shell_h->current_env)
 	{
 		if (g_shell_h->envp[i] != NULL)
 		{
-			ret = ft_strnstr(g_shell_h->envp[i],str, \
+			ret = ft_strnstr(g_shell_h->envp[i], str, \
 				ft_strlen(g_shell_h->envp[i]));
 			if (ret != NULL)
 			{
@@ -83,6 +88,19 @@ char	*find_in_env(char *str)
 		}
 		i++;
 	}
-	free(str);
 	return ("\0");
+}
+
+int	find_path_env(char **env, char *key)
+{
+	int	i;
+
+	i = 0;
+	while (i < 1000)
+	{
+		if (env[i] && ft_strnstr(env[i], key, ft_strlen(key)))
+			return (i);
+		i++;
+	}
+	return (-1);
 }
